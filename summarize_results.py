@@ -15,11 +15,11 @@ parser.add_argument("--summary-dir", type=str, default="./summary", help='Summar
 parser.add_argument('--t2i-metrics', 
                     default=["Recall@1", "Recall@10", "MRR"], 
                     nargs='+', 
-                    help='Metrics to dispaly for the text-to-image task.')
+                    help='Metrics to display for the text-to-image task.')
 parser.add_argument('--c2p-metrics', 
                     default=["P@1", "P@10", "MRR"], 
                     nargs='+', 
-                    help='Metrics to dispaly for category-to-product task.')
+                    help='Metrics to display for category-to-product task.')
 parser.add_argument('--tasks-avg-results', 
                     default=["text-to-image","category-to-product","sub-category-to-product"], 
                     nargs='+', 

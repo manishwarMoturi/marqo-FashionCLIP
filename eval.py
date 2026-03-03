@@ -20,7 +20,7 @@ parser.add_argument('--model-name', type=str, default='ViT-B-16', help='Model na
 parser.add_argument('--run-name', type=str, default='ViT-B-16_laion2b_s34b_b88k', help='Run name.')
 parser.add_argument("--pretrained", type=str, default='laion2b_s34b_b88k', help='Pretrained name.')
 parser.add_argument('--cache-dir', default=".cache", help='Cache directory for models and datasets.')
-parser.add_argument('--device', default='cuda', help='Device to use for inference.')
+parser.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu', help='Device to use for inference.')
 parser.add_argument("--query-prefix", type=str, default='', help="Query prefix if required (ex. 'description: ')")
 # Args for evaluations
 parser.add_argument('--Ks', default=[1, 10], nargs='+', help='Ks for metrics.')
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # Load model
     model, preprocess, tokenizer = load_model(args)
 
-    # Load documenets and generate embeddings
+    # Load documents and generate embeddings
     model = model.to(args.device)
 
     doc_dataset, item_ID = get_dataset(args, tokenizer, preprocess)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         torch.save(embeddings, args.embeddings_path)
     else:
         logging.info("Loading embeddings of documents")
-        embeddings = torch.load(args.embeddings_path)
+        embeddings = torch.load(args.embeddings_path, weights_only=False)
 
     # Run tasks
     for task in args.dataset_config["tasks"]:
