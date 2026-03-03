@@ -35,6 +35,34 @@ We averaged the performance of three common tasks across the datasets: text-to-i
 | ViT-B-16-laion2b_s34b_b88k | 0.638     | 0.651     | 0.624     | 0.712     |
 | ViT-B-16-SigLIP-webli      | 0.643     | 0.643     | 0.643     | 0.726     |
 
+## Pretrained Models
+
+Yes, pretrained models are used both when **building** the Marqo fashion models and when **running predictions** with them.
+
+### Base models used for fine-tuning
+
+Marqo-FashionCLIP and Marqo-FashionSigLIP are not trained from scratch. They are produced by fine-tuning established pretrained vision-language models on fashion-domain data:
+
+| Marqo Model | Base Pretrained Model | Pretrained On | Architecture | Library |
+|---|---|---|---|---|
+| Marqo-FashionCLIP | ViT-B-16 (`laion2b_s34b_b88k`) | LAION-2B (3.4B image-text pairs) | Vision Transformer B/16 | OpenCLIP |
+| Marqo-FashionSigLIP | ViT-B-16-SigLIP (`webli`) | WebLI (10B image-text pairs) | Vision Transformer B/16 (SigLIP) | OpenCLIP |
+
+### Pretrained models used for prediction / evaluation
+
+All six models in the evaluation pipeline are pretrained and are loaded directly — no training is performed at evaluation time:
+
+| Model | Source | Loading Method |
+|---|---|---|
+| Marqo-FashionCLIP | [Marqo/marqo-fashionCLIP](https://huggingface.co/Marqo/marqo-fashionCLIP) | HuggingFace Hub / OpenCLIP Hub |
+| Marqo-FashionSigLIP | [Marqo/marqo-fashionSigLIP](https://huggingface.co/Marqo/marqo-fashionSigLIP) | HuggingFace Hub / OpenCLIP Hub |
+| FashionCLIP 2.0 | [patrickjohncyh/fashion-clip](https://huggingface.co/patrickjohncyh/fashion-clip) | HuggingFace Hub (`transformers`) |
+| OpenFashionCLIP | [aimagelab/open-fashion-clip](https://github.com/aimagelab/open-fashion-clip) | Local `.pt` checkpoint |
+| ViT-B-16 (laion2b) | OpenCLIP (`laion2b_s34b_b88k`) | OpenCLIP |
+| ViT-B-16-SigLIP (webli) | OpenCLIP (`webli`) | OpenCLIP |
+
+In summary: **every model in this repository is a pretrained model**, either used as-is for evaluation or as the starting point for fashion-domain fine-tuning.
+
 ## Models
 ### Hugging Face
 We released our models on HuggingFace: [Marqo-FashionCLIP](https://huggingface.co/Marqo/marqo-fashionCLIP) and [Marqo-FashionSigLIP](https://huggingface.co/Marqo/marqo-fashionSigLIP). We also have a Hugging Face Space Demo of our models in action: [Classification with Marqo-FashionSigLIP](https://huggingface.co/spaces/Marqo/Marqo-FashionSigLIP-Classification).
